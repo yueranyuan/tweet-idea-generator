@@ -1,55 +1,116 @@
-# Subscribe.dev Boilerplate
+# 🐦 Tweet Idea Generator
 
-A minimal boilerplate application for building AI-powered apps with Subscribe.dev. This project demonstrates authentication, AI model invocation, usage tracking, and subscription management.
-
-## Quick Start
-
-```bash
-# Install dependencies
-npm install
-
-# Create environment file
-cp .env.example .env
-
-# Add your Subscribe.dev API key to .env
-# Get one at: https://dashboard.subscribe.dev
-
-# Start development server
-npm run dev
-```
-
-Visit `http://localhost:5173` to see your app.
+An AI-powered tweet idea generator built with React, TypeScript, and Subscribe.dev. Get creative tweet suggestions with hashtags in seconds!
 
 ## Features
 
-✅ Authentication with Subscribe.dev
-✅ AI text generation with GPT-4o
-✅ Usage tracking (credits used/remaining)
-✅ Subscription management
-✅ Error handling
-✅ Loading states
-✅ Responsive design
+- 🤖 **AI-Powered Generation**: Uses GPT-4o to create engaging tweet ideas
+- 🎨 **Multiple Tones**: Choose from Professional, Casual, Humorous, Inspirational, Educational, or Controversial
+- 🏷️ **Smart Hashtags**: Automatically suggests relevant hashtags for each tweet
+- 📋 **One-Click Copy**: Copy tweets to clipboard instantly
+- 🔐 **Built-in Auth**: Sign in with GitHub, Google, or email
+- 💳 **Credit Tracking**: Monitor your API usage and subscription status
 
-## What's Inside
+## Tech Stack
 
-- **React 18** with TypeScript
-- **Vite** for fast development
-- **Subscribe.dev** for AI and billing
-- Clean, minimal UI ready to customize
+- React 18 + TypeScript + Vite
+- [@subscribe.dev/react](https://www.npmjs.com/package/@subscribe.dev/react) ^0.0.240
+- Bun package manager
+- OpenAI GPT-4o via Subscribe.dev
 
-## Next Steps
+## Setup
 
-1. Customize the UI in [src/components/AIDemo.tsx](src/components/AIDemo.tsx)
-2. Add more AI models (images, video, etc.)
-3. Implement persistent storage with `useStorage`
-4. Build your unique features!
+```bash
+# Clone the repository
+git clone https://github.com/yueranyuan/tweet-idea-generator.git
+cd tweet-idea-generator
+
+# Install dependencies
+bun install
+
+# Create .env.local
+cp .env.local.example .env.local
+```
+
+### Environment Variables
+
+Get your tokens at [platform.subscribe.dev](https://platform.subscribe.dev):
+
+```bash
+# .env.local
+VITE_SUBSCRIBEDEV_PUBLIC_API_KEY=your_project_token
+VITE_SUBSCRIBEDEV_LOCAL_ACCESS_TOKEN=your_access_token  # Optional, dev-only
+```
+
+### Run Development Server
+
+```bash
+bun run dev
+```
+
+Vite will automatically select an available port (default 5173, auto-increments if busy). Check the terminal output for the actual port.
+
+## How It Works
+
+1. Enter a topic (e.g., "artificial intelligence in healthcare")
+2. Select a tone (Professional, Casual, Humorous, etc.)
+3. Click "✨ Generate Tweet Ideas"
+4. Get 5 AI-generated tweet ideas with hashtags
+5. Click "📋 Copy" to copy any tweet to clipboard
+
+## Build & Deploy
+
+```bash
+bun run build
+```
+
+Deploy the `dist/` folder to any static host:
+- Vercel
+- Netlify
+- Cloudflare Pages
+- GitHub Pages
+
+## Project Structure
+
+```
+src/
+├── App.tsx                      # SubscribeDevProvider wrapper
+├── components/
+│   └── TweetGenerator.tsx       # Main tweet generator component
+├── main.tsx                     # React entry point
+└── index.css                    # Styles
+
+.env.local                       # Environment variables (not committed)
+.env.local.example               # Environment template
+vite.config.ts                   # Vite configuration
+```
+
+## API Usage
+
+Uses the Subscribe.dev client to call OpenAI GPT-4o:
+
+```typescript
+const response = await client.run('openai/gpt-4o', {
+  input: {
+    messages: [
+      { role: 'system', content: 'You are a creative social media expert...' },
+      { role: 'user', content: `Generate 5 tweet ideas about "${topic}"...` }
+    ]
+  },
+  response_format: { type: 'json_object' }
+})
+```
 
 ## Documentation
 
 See [CLAUDE.md](CLAUDE.md) for detailed development instructions and architecture.
 
-## Resources
+## Links
 
+- [GitHub Repository](https://github.com/yueranyuan/tweet-idea-generator)
+- [Subscribe.dev Platform](https://platform.subscribe.dev)
 - [Subscribe.dev Docs](https://docs.subscribe.dev)
-- [Dashboard](https://dashboard.subscribe.dev)
-- [Community Discord](https://discord.gg/subscribedev)
+
+---
+
+Built with ❤️ using [Subscribe.dev](https://subscribe.dev) and [Claude Code](https://claude.com/claude-code)
